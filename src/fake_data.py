@@ -36,9 +36,15 @@ def generate_fake_csv(num_rows):
     fake = Faker()
     data = []
     for i in range(num_rows):
+
+        participant_id = f'sub-{i+1:05}'
+
         age = fake.random_int(min=0, max=90)
+
         sex = random.choice(['F', 'M'])
-        gender_identity = random.choice([
+
+        gender = random.choice([
+            "",
             'Agender',
             'Androgyne',
             'Androgynous',
@@ -96,7 +102,9 @@ def generate_fake_csv(num_rows):
             'Transsexual Woman',
             'Two-Spirit'
             ])
+
         pronouns = random.choice([
+            "",
             'ae/aer',
             'e/em',
             'ey/em',
@@ -110,7 +118,9 @@ def generate_fake_csv(num_rows):
             'ze/hir',
             'zie/hir'
             ])
+
         race = random.choice([
+            "",
             'White',
             'Black or African American',
             'Asian',
@@ -118,7 +128,9 @@ def generate_fake_csv(num_rows):
             'Native Hawaiian or Other Pacific Islander',
             'Other'
             ])
+
         diagnosis = random.choice([
+            "",
             'Neurodevelopmental Disorder',
             'Schizophrenia Spectrum or Other Psychotic Disorder',
             'Bipolar or Related Disorder',
@@ -140,19 +152,186 @@ def generate_fake_csv(num_rows):
             'Paraphilic Disorder',
             'Typical Control'
             ])
+
         zip_code = fake.zipcode()
 
-        participant_id = f'sub-{i+1:05}'
-        sessions = fake.random_int(min=1, max=3)
-        tasks = fake.random_int(min=1, max=4)
-        runs = fake.random_int(min=1, max=2)
-        for file_path in generate_bids_path(participant_id, sessions, tasks, runs):
-            data.append([participant_id, age, sex, diagnosis, gender_identity, pronouns, race, zip_code, file_path])
+        study = random.choice([
+            "GINA",
+            "ADNI",
+            "ISAAC",
+            "CHARVA",
+            "GOMETS",
+            "GBD",
+            "AGRE",
+            "HapMap",
+            "ICBP-GWAS",
+            "PDBP",
+            "GOLD",
+            "IMSGC",
+            "ICGC",
+            "SHIP",
+            "IGAP",
+            "IIBDGC",
+            "IHGC",
+            "ILCCO",
+            "CHS",
+            "ISGC",
+            "MMRF",
+            "IEC",
+            "DPPOS",
+            "IPDGC",
+            "SOF",
+            "ICTME",
+            "ICHR",
+            "ICC-OHIA",
+            "CSVD",
+            "ILEC",
+            "GCDD",
+            "ICASA",
+            "cVEDA",
+            "iGeneTRAiN",
+            "CPTDPs",
+            "GCHCE",
+            "ICCR",
+            "ICGRTC",
+            "GCPM",
+            "CoMSSA",
+            "ICBBB",
+            "COTS",
+            "CGHFBC",
+            "GCCR",
+            "CEGIR",
+            "IEGC",
+            "ICGCmed",
+            "COGS",
+            "iCLAHRC",
+            "COGS"
+            ])
+
+        site = random.choice([
+            "",
+            "MIT",
+            "Caltech",
+            "Stanford",
+            "Harvard",
+            "Princeton",
+            "Yale",
+            "Oxford",
+            "Cambridge",
+            "Imperial College London",
+            "University of Chicago",
+            "Columbia",
+            "University of California, Berkeley",
+            "University of California, Los Angeles",
+            "University of Michigan",
+            "University of Texas at Austin",
+            "University of Illinois at Urbana-Champaign",
+            "University of Wisconsin-Madison",
+            "University of Pennsylvania",
+            "Duke",
+            "Johns Hopkins",
+            "Cornell",
+            "Northwestern",
+            "Brown",
+            "University of Minnesota",
+            "University of Washington",
+            "University of North Carolina at Chapel Hill",
+            "University of Colorado Boulder",
+            "University of Arizona",
+            "Arizona State University",
+            "University of Utah",
+            "University of California, San Diego",
+            "University of Southern California",
+            "University of Maryland, College Park",
+            "Georgetown",
+            "New York University",
+            "University of Notre Dame",
+            "University of Virginia",
+            "Emory",
+            "Rice",
+            "University of Oregon",
+            "Vanderbilt",
+            "University of California, Davis",
+            "University of Iowa",
+            "University of Rochester",
+            "University of California, Santa Barbara",
+            "University of Pittsburgh",
+            "University of Texas Southwestern Medical Center",
+            "Washington University in St. Louis",
+            "University of Toronto",
+            "University of British Columbia",
+            "McGill",
+            "University of Alberta"
+            ])
+
+        has_mri = random.choice([True, False])
+        has_meg = random.choice([True, False])
+        has_eeg = random.choice([True, False])
+
+        data.append([
+            participant_id,
+            study,
+            site,
+            age,
+            sex,
+            diagnosis,
+            gender,
+            pronouns,
+            race,
+            zip_code,
+            has_mri,
+            has_meg,
+            has_eeg
+            ])
+
+        # sessions = fake.random_int(min=1, max=3)
+        # tasks = fake.random_int(min=1, max=4)
+        # runs = fake.random_int(min=1, max=2)
+        # for file_path in generate_bids_path(participant_id, sessions, tasks, runs):
+        #     data.append([
+        #         study,
+        #         participant_id,
+        #         session_id,
+        #         site,
+        #         age,
+        #         sex,
+        #         diagnosis,
+        #         gender,
+        #         pronouns,
+        #         race,
+        #         zip_code,
+        #         has_mri,
+        #         has_meg,
+        #         has_eeg,
+        #         file_path
+        #         ])
 
     # Write data to CSV file
     with open(os.path.join('data', 'fake_data.csv'), 'w', newline='') as csvfile:
         writer = csv.writer(csvfile)
-        writer.writerow(['participant_id', 'age', 'sex', 'diagnosis', 'gender_identity', 'pronouns', 'race', 'zip_code', 'file_path'])
+        writer.writerow([
+            "participant_id",
+            "study",
+            "site",
+            "age",
+            "sex",
+            "diagnosis",
+            "gender",
+            "pronouns",
+            "race",
+            "zip_code",
+            "has_mri",
+            "has_meg",
+            "has_eeg"
+        ])
         writer.writerows(data)
 
-generate_fake_csv(10000)
+generate_fake_csv(100000)
+
+# need to figure out:
+#   - phenotype data dictionary free text search
+#   - do away with file_path
+#   - session_id by either #s or individual names
+#   - MRI sequence info
+#   - not reported
+#   - no/empty data
